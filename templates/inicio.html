@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h1>Quem é você?</h1>
+{% if not motoristas %}
+  <p class="vazio">Nenhum motorista cadastrado. O despachante precisa importar a planilha do SisFrota.</p>
+{% endif %}
+<ul class="lista-motoristas">
+  {% for m in motoristas %}
+    <li><a class="botao-grande" href="{{ url_for('motorista', mid=m.id) }}">{{ m.nome }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}

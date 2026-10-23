@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Chamada de Motoristas{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='htmx.min.js') }}"></script>
+</head>
+<body>
+  <header class="topo">
+    <strong>Chamada de Motoristas</strong>
+    <nav><a href="{{ url_for('inicio') }}">Motorista</a> <a href="{{ url_for('admin') }}">Despachante</a></nav>
+  </header>
+  <main>{% block conteudo %}{% endblock %}</main>
+</body>
+</html>

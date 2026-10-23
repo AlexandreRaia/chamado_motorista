@@ -1,0 +1,18 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #0b1b2e; color: #fff; font-family: system-ui, Arial, sans-serif; cursor: none; overflow: hidden; }
+header { display: flex; justify-content: space-between; align-items: center; padding: 1vh 3vw; background: #0b4f8a; }
+header h1 { margin: 0; font-size: 4vh; }
+#relogio { font-size: 5vh; font-weight: bold; }
+h2 { font-size: 3.6vh; margin: 2vh 3vw 1vh; }
+.sem { color: #8aa0b8; font-weight: normal; }
+.chamados { padding-top: 2.5vh; }
+.grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(40vw, 1fr)); gap: 2vh 2vw; padding: 0 3vw; }
+.chamado { background: #e07b00; border-radius: 1.5vh; padding: 2vh 2vw; }
+.chamado .nome { font-size: 7vh; font-weight: bold; line-height: 1.1; }
+.chamado .veiculo { font-size: 4.5vh; margin-top: 1vh; }
+.chamado .destino { font-size: 3vh; margin-top: 1vh; opacity: .95; }
+.proximos table { width: 94vw; margin: 0 3vw; border-collapse: collapse; font-size: 3vh; }
+.proximos td { padding: 1.1vh 1vw; border-bottom: 1px solid #234; }
+.proximos td.h { font-weight: bold; width: 8vw; }
+.proximos tr.ciente { color: #7fb8ff; }
+.proximos tr.aguardando { color: #cfd9e6; }

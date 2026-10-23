@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Relatório de Solicitação de Veículo</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 760px; margin: 2rem auto; }
+    h1 { text-align: center; font-size: 1.4rem; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: .5rem; }
+    td { padding: .4rem; border-bottom: 1px solid #333; }
+    td b { font-size: 1.05rem; }
+    .corte { border-top: 2px dashed #000; margin-top: 1rem; }
+  </style>
+</head>
+<body onload="window.print()">
+  <h1>Relatório de Solicitação de Veículo</h1>
+  <table>
+    <tr><td>Motorista</td><td colspan="3"><b>{{ v.motorista }}</b></td></tr>
+    <tr><td>Veículo</td><td><b>{{ v.modelo }}</b></td><td>Placa</td><td><b>{{ v.placa }}</b></td></tr>
+    <tr><td>Data saída</td><td><b>{{ v.inicio|dia }} {{ v.inicio|hora }}</b></td>
+        <td>Data retorno</td><td><b>{{ v.termino|dia }} {{ v.termino|hora }}</b></td></tr>
+    <tr><td>Solicitante</td><td colspan="3"><b>{{ v.secretaria }}</b></td></tr>
+    <tr><td colspan="4">{{ v.descricao }}</td></tr>
+    <tr><td>Destinos</td><td colspan="3"><b>{{ v.destino }}</b></td></tr>
+  </table>
+  <div class="corte"></div>
+</body>
+</html>

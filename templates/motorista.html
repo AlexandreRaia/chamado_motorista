@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h1>{{ m.nome }}</h1>
+<button id="ativar" class="botao-grande secundario" type="button">🔔 Ativar alertas sonoros</button>
+
+<div id="painel" hx-get="{{ url_for('motorista_painel', mid=m.id) }}" hx-trigger="every 5s" hx-swap="innerHTML">
+  {% set mid = m.id %}
+  {% include "_painel.html" %}
+</div>
+
+<script>
+  let ctx = null, anterior = null;
+
+  document.getElementById('ativar').addEventListener('click', function () {
+    ctx = new (window.AudioContext || window.webkitAudioContext)();
+    bipar();
+    this.textContent = '🔔 Alertas ativados';
+    this.disabled = true;
+  });
+
+  function bipar() {
+    if (!ctx) return;
+    [0, 0.35, 0.7].forEach(function (t) {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.value = 880; o.connect(g); g.connect(ctx.destination);
+      g.gain.setValueAtTime(0.4, ctx.currentTime + t);
+      o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.25);
+    });
+    if (navigator.vibrate) navigator.vibrate([300, 150, 300, 150, 300]);
+  }
+
+  function verificar() {
+    const n = document.querySelectorAll('#painel .chamada-ativa').length;
+    if (anterior !== null && n > anterior) { bipar(); }
+    if (n > 0) { document.title = '🚨 CHAMADA — ' + n; } else { document.title = 'Chamada de Motoristas'; }
+    anterior = n;
+  }
+  verificar();
+  document.body.addEventListener('htmx:afterSwap', verificar);
+</script>
+{% endblock %}

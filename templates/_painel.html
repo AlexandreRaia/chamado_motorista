@@ -1,0 +1,23 @@
+{% if not viagens %}
+  <p class="vazio">Nenhuma viagem para hoje.</p>
+{% endif %}
+{% for v in viagens %}
+  <article class="viagem st-{{ v.status }} {% if v.status == 'chamado' %}chamada-ativa{% endif %}">
+    <div class="viagem-topo">
+      <span class="hora">{{ v.inicio|hora }}</span>
+      <span class="selo {{ v.status }}">{{ STATUS_ROTULO[v.status] }}</span>
+    </div>
+    <p><strong>{{ v.modelo }}</strong> — placa <strong>{{ v.placa }}</strong></p>
+    <p>Retorno previsto: {{ v.termino|hora }}</p>
+    <p>{{ v.secretaria }}{% if v.solicitante %} · {{ v.solicitante }}{% endif %}</p>
+    <p>{{ v.descricao }}</p>
+    <p>📍 {{ v.destino }}{% if v.passageiros %} · {{ v.passageiros }} passageiro(s){% endif %}</p>
+    {% if v.status == 'chamado' %}
+      <button class="botao-grande" hx-post="{{ url_for('motorista_acao', mid=mid, vid=v.id, acao='ciente') }}"
+              hx-target="#painel" hx-swap="innerHTML">✔ Ciente</button>
+    {% elif v.status == 'ciente' %}
+      <button class="botao-grande secundario" hx-post="{{ url_for('motorista_acao', mid=mid, vid=v.id, acao='concluir') }}"
+              hx-target="#painel" hx-swap="innerHTML" hx-confirm="Marcar viagem como concluída?">Concluir viagem</button>
+    {% endif %}
+  </article>
+{% endfor %}

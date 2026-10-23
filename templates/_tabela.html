@@ -1,0 +1,33 @@
+{% if not viagens %}
+<p class="vazio">Nenhuma viagem para {{ dia|dia }}.</p>
+{% else %}
+<div class="rolagem">
+<table>
+  <thead><tr>
+    <th>Saída</th><th>Retorno</th><th>Motorista</th><th>Veículo</th><th>Solicitante</th><th>Destino</th><th>Status</th><th></th>
+  </tr></thead>
+  <tbody>
+  {% for v in viagens %}
+    <tr class="st-{{ v.status }}">
+      <td>{{ v.inicio|hora }}</td>
+      <td>{{ v.termino|hora }}</td>
+      <td>{{ v.motorista }}</td>
+      <td>{{ v.modelo }}<br><small>{{ v.placa }}</small></td>
+      <td>{{ v.secretaria }}</td>
+      <td>{{ v.destino }}</td>
+      <td><span class="selo {{ v.status }}">{{ STATUS_ROTULO[v.status] }}</span>
+        {% if v.ciente_em %}<br><small>ciente {{ v.ciente_em|hora }}</small>{% endif %}</td>
+      <td class="acoes">
+        {% if v.status == 'aguardando' %}
+          <button hx-post="{{ url_for('admin_chamar', vid=v.id) }}" hx-target="closest div.rolagem" hx-swap="outerHTML">Chamar</button>
+        {% elif v.status == 'chamado' %}
+          <button class="secundario" hx-post="{{ url_for('admin_ciente', vid=v.id) }}" hx-target="closest div.rolagem" hx-swap="outerHTML">Ciente</button>
+        {% endif %}
+        <a href="{{ url_for('admin_imprimir', vid=v.id) }}" target="_blank">Imprimir</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}

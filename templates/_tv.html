@@ -1,0 +1,15 @@
+<section class="chamados">
+  {% if chamados %}
+    <div class="grade">
+    {% for v in chamados %}
+      <div class="chamado" data-id="{{ v.id }}" data-nome="{{ v.motorista }}" data-placa="{{ v.placa }}">
+        <div class="nome">{{ v.motorista }}</div>
+        <div class="veiculo">{{ v.modelo }} — <strong>{{ v.placa }}</strong></div>
+        <div class="destino">Saída {{ v.inicio|hora }} · {{ v.destino }}</div>
+      </div>
+    {% endfor %}
+    </div>
+  {% else %}
+    <h2 class="sem">Nenhum motorista chamado no momento</h2>
+  {% endif %}
+</section>

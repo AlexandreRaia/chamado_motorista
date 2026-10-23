@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+chamada.db
+*.db
+uploads/*
+!uploads/.gitkeep

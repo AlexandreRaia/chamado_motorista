@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h1>Painel do despachante</h1>
+{% if msg %}<p class="aviso">{{ msg }}</p>{% endif %}
+
+<section class="cartao barra">
+  <form method="post" action="{{ url_for('admin_importar') }}" enctype="multipart/form-data">
+    <label>Planilha do SisFrota (.xlsx, .xls ou .csv)
+      <input type="file" name="planilha" accept=".xlsx,.xlsm,.xls,.csv" required></label>
+    <button>Importar</button>
+  </form>
+  <form method="get">
+    <label>Dia <input type="date" name="dia" value="{{ dia }}" onchange="this.form.submit()"></label>
+  </form>
+  <form method="post" action="{{ url_for('admin_config') }}">
+    <input type="hidden" name="dia" value="{{ dia }}">
+    <label>Chamar automaticamente
+      <input type="number" name="antecedencia" value="{{ antecedencia }}" min="0" max="240" style="width:4.5em"> min antes</label>
+    <button>Salvar</button>
+  </form>
+</section>
+
+<p class="cartao">📺 Link da TV (somente exibição):
+  <a href="{{ url_for('tv', chave=tv_chave) }}" target="_blank">{{ url_for('tv', chave=tv_chave, _external=True) }}</a></p>
+
+<div hx-get="{{ url_for('admin_tabela', dia=dia) }}" hx-trigger="every 10s" hx-swap="innerHTML">
+  {% include "_tabela.html" %}
+</div>
+{% endblock %}

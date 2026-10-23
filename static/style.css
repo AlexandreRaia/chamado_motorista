@@ -1,0 +1,36 @@
+:root { --azul: #0b4f8a; --verde: #1b8a3a; --laranja: #e07b00; --cinza: #6b7280; --borda: #d1d5db; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, Arial, sans-serif; background: #f3f4f6; color: #111827; }
+.topo { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+        background: var(--azul); color: #fff; padding: .75rem 1rem; }
+.topo a { color: #fff; margin-left: 1rem; }
+main { padding: 1rem; max-width: 1200px; margin: 0 auto; }
+h1 { font-size: 1.4rem; }
+.cartao { background: #fff; border: 1px solid var(--borda); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+.barra { display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: end; }
+.barra form { display: flex; gap: .5rem; align-items: end; flex-wrap: wrap; }
+label { display: flex; flex-direction: column; gap: .25rem; font-size: .9rem; }
+button, .botao-grande { background: var(--azul); color: #fff; border: 0; border-radius: 6px; padding: .5rem .9rem; font-size: 1rem; cursor: pointer; }
+button.secundario, .botao-grande.secundario { background: var(--cinza); }
+.aviso { background: #fef3c7; border: 1px solid #fcd34d; padding: .6rem 1rem; border-radius: 6px; }
+.vazio { color: var(--cinza); }
+.rolagem { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { text-align: left; padding: .5rem; border-bottom: 1px solid var(--borda); vertical-align: top; font-size: .9rem; }
+th { background: #e5e7eb; }
+.acoes { white-space: nowrap; }
+.selo { display: inline-block; padding: .15rem .6rem; border-radius: 999px; font-size: .8rem; color: #fff; background: var(--cinza); }
+.selo.chamado { background: var(--laranja); }
+.selo.ciente { background: var(--azul); }
+.selo.concluido { background: var(--verde); }
+tr.st-chamado { background: #fff7ed; }
+.lista-motoristas { list-style: none; padding: 0; display: grid; gap: .6rem; }
+.botao-grande { display: block; width: 100%; text-align: center; text-decoration: none; padding: 1rem; font-size: 1.1rem; margin: .5rem 0; }
+.viagem { background: #fff; border: 1px solid var(--borda); border-left: 6px solid var(--cinza); border-radius: 8px; padding: .8rem 1rem; margin: .8rem 0; }
+.viagem p { margin: .35rem 0; }
+.viagem.st-chamado { border-left-color: var(--laranja); }
+.viagem.st-ciente { border-left-color: var(--azul); }
+.viagem.st-concluido { border-left-color: var(--verde); opacity: .65; }
+.viagem-topo { display: flex; justify-content: space-between; align-items: center; }
+.hora { font-size: 1.8rem; font-weight: bold; }
+@media (max-width: 600px) { main { padding: .6rem; } th, td { font-size: .8rem; } }

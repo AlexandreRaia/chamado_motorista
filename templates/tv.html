@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chamada de Motoristas - TV</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='tv.css') }}">
+  <script src="{{ url_for('static', filename='htmx.min.js') }}"></script>
+</head>
+<body>
+  <header>
+    <h1>Chamada de Motoristas</h1>
+    <div id="relogio"></div>
+  </header>
+  <div id="painel" hx-get="{{ url_for('tv_painel', chave=chave) }}" hx-trigger="every 5s" hx-swap="innerHTML">
+    {% include "_tv.html" %}
+  </div>
+
+<script>
+  const relogio = document.getElementById('relogio');
+  setInterval(() => relogio.textContent = new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'}), 1000);
+
+  // Navegadores bloqueiam som sem clique. No modo quiosque com
+  // --autoplay-policy=no-user-gesture-required o aviso sonoro funciona; sem isso, so o visual.
+  let vistos = null;
+  function bipar() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      [0, 0.4, 0.8].forEach(t => {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.frequency.value = 880; o.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(0.5, ctx.currentTime + t);
+        o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.25);
+      });
+    } catch (e) {}
+  }
+  function falar(texto) {
+    try {
+      const u = new SpeechSynthesisUtterance(texto);
+      u.lang = 'pt-BR'; u.rate = 0.9;
+      speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+  function verificar() {
+    const cards = [...document.querySelectorAll('#painel .chamado')];
+    const ids = new Set(cards.map(c => c.dataset.id));
+    if (vistos !== null) {
+      const novos = cards.filter(c => !vistos.has(c.dataset.id));
+      if (novos.length) {
+        bipar();
+        setTimeout(() => novos.forEach(c => falar(
+          c.dataset.nome + ', comparecer ao veículo placa ' + c.dataset.placa.split('').join(' '))), 1300);
+      }
+    }
+    vistos = ids;
+  }
+  verificar();
+  document.body.addEventListener('htmx:afterSwap', verificar);
+  // recarrega a pagina de tempos em tempos para evitar travamentos de longa duracao
+  setTimeout(() => location.reload(), 6 * 60 * 60 * 1000);
+</script>
+</body>
+</html>
